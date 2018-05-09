@@ -79,13 +79,13 @@ echo "======================================================================"
         Cache	缓存主要用于打开的文件	最少使用原则（LRU）
         Buffer	分缓存主要用于目录项、inode等文件系统	先进先出策略
     总内存获取：
-        root@ecap-backend:~# awk '/MemTotal/{print $2}' /proc/meminfo
+        root@xiaoshi:~# awk '/MemTotal/{print $2}' /proc/meminfo
         2077012
     空闲内存获取:
-        root@ecap-backend:~# awk '/MemFree/{print $2}' /proc/meminfo
+        root@xiaoshi:~# awk '/MemFree/{print $2}' /proc/meminfo
         1269836
     合并输出总内存和空闲内存:
-        root@ecap-backend:~# awk '/MemTotal/{print $2}/MemFree/{print $2}' /proc/meminfo
+        root@xiaoshi:~# awk '/MemTotal/{print $2}/MemFree/{print $2}' /proc/meminfo
         2077012
         1269792
     计算得出我们的系统内存：
@@ -95,27 +95,27 @@ echo "======================================================================"
         应用使用内存=Total-(Free+Cached+Buffers)
     获取Cached的值
         第一种方法：
-            root@ecap-backend:~# awk '/Cached/{print $2}' /proc/meminfo
+            root@xiaoshi:~# awk '/Cached/{print $2}' /proc/meminfo
             439812
             0
         第二种方法：
-            root@ecap-backend:~# cat /proc/meminfo | grep Cached
+            root@xiaoshi:~# cat /proc/meminfo | grep Cached
             Cached:           439812 kB
             SwapCached:            0 kB
         第三种方法：
-            root@ecap-backend:~# awk '/^Cached/{print $2}' /proc/meminfo
+            root@xiaoshi:~# awk '/^Cached/{print $2}' /proc/meminfo
             439812
     获取Buffers的值
-        root@ecap-backend:~# awk '/Buffers/{print $2}' /proc/meminfo
+        root@xiaoshi:~# awk '/Buffers/{print $2}' /proc/meminfo
         17116
     获取应用内存
-        root@ecap-backend:~# awk '/MemTotal/{total=$2}/MemFree/{free=$2}/^Cached/{cached=$2}/Buffers/{buffers=$2}END{print (total-free-cached-buffers)/1024}' /proc/meminfo
+        root@xiaoshi:~# awk '/MemTotal/{total=$2}/MemFree/{free=$2}/^Cached/{cached=$2}/Buffers/{buffers=$2}END{print (total-free-cached-buffers)/1024}' /proc/meminfo
         345.309
     命令输出：
         app_mem_usages=`awk '/MemTotal/{total=$2}/MemFree/{free=$2}/^Cached/{cached=$2}/Buffers/{buffers=$2}END{print (total-free-cached-buffers)/1024}' /proc/meminfo `
         echo -e '\E[32m'"应用程序使用的内存：" $reset_terminal $app_mem_usages M
     #cpu负载均衡的值
-        root@ecap-backend:~# top -n 1 | grep "load average"
+        root@xiaoshi:~# top -n 1 | grep "load average"
 
         top - 17:31:28 up  3:34,  3 users,  load average: 0.08, 0.02, 0.01
 
@@ -127,7 +127,7 @@ echo "======================================================================"
         echo "====================================================================="
     #硬盘使用情况的分析
     命令解释：
-        root@ecap-backend:~# df -h |grep -vE 'Filesystem'
+        root@xiaoshi:~# df -h |grep -vE 'Filesystem'
         udev            995M     0  995M   0% /dev
         tmpfs           203M  6.0M  197M   3% /run
         /dev/sda1        16G  2.8G   13G  19% /
@@ -136,15 +136,15 @@ echo "======================================================================"
         tmpfs          1015M     0 1015M   0% /sys/fs/cgroup
         tmpfs           203M     0  203M   0% /run/user/0
 
-        root@ecap-backend:~# df -h |grep -vE 'Filesystem|tmpfs'
+        root@xiaoshi:~# df -h |grep -vE 'Filesystem|tmpfs'
         udev            995M     0  995M   0% /dev
         /dev/sda1        16G  2.8G   13G  19% /
 
-        root@ecap-backend:~# df -h |grep -vE 'Filesystem|tmpfs' | awk '{print $1 $5}'
+        root@xiaoshi:~# df -h |grep -vE 'Filesystem|tmpfs' | awk '{print $1 $5}'
         udev0%
         /dev/sda119%
 
-        root@ecap-backend:~# df -h |grep -vE 'Filesystem|tmpfs' | awk '{print $1 " " $5}'
+        root@xiaoshi:~# df -h |grep -vE 'Filesystem|tmpfs' | awk '{print $1 " " $5}'
         udev 0%
         /dev/sda1 19%
     命令输出：
