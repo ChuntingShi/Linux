@@ -1,4 +1,4 @@
-Linux_shell
+Linux系统信息采集
 =============================================================
 #  环境准备
 `注意：此脚本帮助初学者学习shell脚本使用，此脚本禁止作为商业用途，谢谢合作。` <br>
@@ -112,10 +112,10 @@ Linux_shell
                     root@xiaoshi:~# awk '/^Cached/{print $2}' /proc/meminfo <br>
                     439812
 ### 获取Buffers的值
-            root@xiaoshi:~# awk '/Buffers/{print $2}' /proc/meminfo
+            root@xiaoshi:~# awk '/Buffers/{print $2}' /proc/meminfo <br>
             17116
 ### 获取应用内存
-            root@xiaoshi:~# awk '/MemTotal/{total=$2}/MemFree/{free=$2}/^Cached/{cached=$2}/Buffers/{buffers=$2}END{print (total-free-cached-buffers)/1024}' /proc/meminfo
+            root@xiaoshi:~# awk '/MemTotal/{total=$2}/MemFree/{free=$2}/^Cached/{cached=$2}/Buffers/{buffers=$2}END{print (total-free-cached-buffers)/1024}' /proc/meminfo <br>
             345.309
 ### 命令输出：
             app_mem_usages=`awk '/MemTotal/{total=$2}/MemFree/{free=$2}/^Cached/{cached=$2}/Buffers/{buffers=$2}END{print (total-free-cached-buffers)/1024}' /proc/meminfo ` <br>
@@ -123,12 +123,12 @@ Linux_shell
 # cpu负载均衡的值
 ## 命令输出
         root@xiaoshi:~\# top -n 1 | grep "load average" <br>
-        <br>
+
         top - 17:31:28 up  3:34,  3 users,  load average: 0.08, 0.02, 0.01 <br>
-        <br>
+
         root@xiaoshi:~\# top -n 1 | grep "load average" | awk '{print $10 $11 $12}' <br>
         0.03,0.02,0.00 <br>
-        <br>
+
         load_average=$(top -n 1 -b |grep "load average" | awk '{print $10 $11 $12}') <br>
         echo -e '\E[32m'"cpu负载均衡的值：" $reset_terminal $load_average <br>
         ```echo "====================================================================="```
@@ -141,15 +141,15 @@ Linux_shell
         tmpfs           5.0M     0  5.0M   0% /run/lock <br>
         tmpfs          1015M     0 1015M   0% /sys/fs/cgroup <br>
         mpfs           203M     0  203M   0% /run/user/0 <br>
-        <br>
+
         root@xiaoshi:~\# df -h |grep -vE 'Filesystem|tmpfs' <br>
         udev            995M     0  995M   0% /dev <br>
         /dev/sda1        16G  2.8G   13G  19% / <br>
-        <br>
+
         root@xiaoshi:~\# df -h |grep -vE 'Filesystem|tmpfs' | awk '{print $1 $5}' <br>
         udev0% <br>
         /dev/sda119% <br>
-        <br>
+
         root@xiaoshi:~\# df -h |grep -vE 'Filesystem|tmpfs' | awk '{print $1 " " $5}' <br>
         udev 0% <br>
         /dev/sda1 19%
