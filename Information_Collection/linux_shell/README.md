@@ -122,9 +122,9 @@ Linux系统信息采集
             ```echo -e '\E[32m'"应用程序使用的内存：" $reset_terminal $app_mem_usages M```
 # cpu负载均衡的值
 ## 命令输出
-        root@xiaoshi:~\# top -n 1 | grep "load average" <br>
+        root@xiaoshi:~\# top -n 1 | grep "load average" 
 
-        top - 17:31:28 up  3:34,  3 users,  load average: 0.08, 0.02, 0.01 <br>
+        top - 17:31:28 up  3:34,  3 users,  load average: 0.08, 0.02, 0.01 
 
         root@xiaoshi:~\# top -n 1 | grep "load average" | awk '{print $10 $11 $12}' <br>
         0.03,0.02,0.00 <br>
